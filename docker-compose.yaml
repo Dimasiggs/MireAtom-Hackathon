@@ -1,0 +1,11 @@
+version: "1"
+services:
+  backend:
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    container_name: backend_c
+    ports:
+      - "127.0.0.1:80:80"
+    stdin_open: true
+    tty: true
