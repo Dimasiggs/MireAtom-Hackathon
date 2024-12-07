@@ -9,3 +9,16 @@ services:
       - "127.0.0.1:80:80"
     stdin_open: true
     tty: true
+
+  frontend:
+    build: ./web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app
+    environment:
+      BACKEND_BASE_URL: "http://localhost:8080"
+      NEXTAUTH_SECRET: "atr5-gt65-9jet"
+      NEXTAUTH_URL: "http://localhost:3000/"
+      NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
+      NODE_ENV: "development"
