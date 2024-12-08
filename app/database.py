@@ -1,6 +1,7 @@
 import sqlite3
 
 
+# TODO: переделать под postgresql
 class Formulas:
     def __init__(self, database_name: str) -> None:
         connection = sqlite3.connect(database_name)

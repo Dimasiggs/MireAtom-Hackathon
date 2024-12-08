@@ -1,12 +1,7 @@
 from fastapi import (
   FastAPI,
 )
-
-from starlette.responses import HTMLResponse
-
+from api import api as api_v01
 
 app = FastAPI()
-
-@app.get("/")
-def read_root() -> HTMLResponse:
-    return HTMLResponse(content=open(""), status_code=200)
+app.mount("/api/v01", api_v01)
