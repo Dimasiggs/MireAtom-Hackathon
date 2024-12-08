@@ -1,12 +1,13 @@
-FROM node:18-alpine
+FROM node:alpine AS development
 
-WORKDIR /app
+WORKDIR /web
 
-COPY package*.json ./
+# Installing dependencies
+COPY ./package.json /web
+
 RUN npm install
 
-COPY . .
-
-EXPOSE 3000
+# Copying all the files in our project
+COPY . /web
 
 CMD ["npm", "run", "dev"]

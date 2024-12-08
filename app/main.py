@@ -9,4 +9,4 @@ app = FastAPI()
 
 @app.get("/")
 def read_root() -> HTMLResponse:
-    return HTMLResponse(content="html_main_page!", status_code=200)
+    return HTMLResponse(content=open(""), status_code=200)
