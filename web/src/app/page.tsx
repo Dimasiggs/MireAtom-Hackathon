@@ -7,7 +7,7 @@ export default function Home() {
     return (
         <>
             <main className={styles.container}>
-                <span>Test</span>
+                <h1>Редактор формул</h1>
                 <FormulaDisplay />
             </main>
             <footer></footer>
