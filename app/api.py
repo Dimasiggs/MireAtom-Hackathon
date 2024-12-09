@@ -6,7 +6,7 @@ from fastapi import (
 
 from fuzzywuzzy import fuzz
 
-import database
+import app.database as database
 
 api = FastAPI()
 Formulas = database.Formulas("database.db")
