@@ -26,6 +26,7 @@ def formulas_similarity(s1, s2, l=0) -> dict:
             if substring in q2:
                 q2 = q2.replace(substring, "")
                 color = hex(random.randrange(0, 2 ** 24))[2:]
+                color = "88E788"
                 s1 = s1.replace(substring, "\colorbox{#" + color + "}{" + substring + "}")
                 s2 = s2.replace(substring, "\colorbox{#" + color + "}{" + substring + "}")
 
