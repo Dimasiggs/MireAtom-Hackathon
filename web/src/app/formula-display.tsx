@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { TextField, Label, TextArea } from 'react-aria-components';
+import type { Dispatch, SetStateAction } from "react";
 import { MathfieldElement } from "mathlive";
 
 import "mathlive";
@@ -17,8 +16,23 @@ declare global {
 }
 
 
-export default function FormulaDisplay() {
-    const [latex, setLatex] = useState("");
+export default function FormulaDisplay<S>({ latex, setLatex }: { latex: S, setLatex?: Dispatch<SetStateAction<S>> }) {
+    const style = { display: "block" };
+    const itemStyle = {
+        marginBottom: "1em",
+    };
+
+    if (setLatex == null) return (
+        <div style={itemStyle}>
+            <math-field
+                contenteditable='false'
+                tabIndex='0'
+                style={style}
+            >
+                {latex}
+            </math-field>
+        </div>
+    );
 
     const handleMathFieldChange = (e) => {
         const newLatex = e.target.value;
@@ -27,23 +41,16 @@ export default function FormulaDisplay() {
 
     return (
         <>
-            <div style={{
-                marginBottom: "1em",
-            }}>
+            <div style={itemStyle}>
                 <math-field
                     contenteditable='true'
                     tabIndex='0'
                     onChange={handleMathFieldChange}
-                    style={{ display: "block" }}
+                    style={style}
                 >
                     {latex}
                 </math-field>
             </div>
-
-            <TextField value={latex} onChange={setLatex}>
-                <Label>LaTeX: </Label>
-                <TextArea />
-            </TextField>
         </>
     );
 }
