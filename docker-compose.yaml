@@ -12,7 +12,7 @@ services:
 
   frontend:
     build:
-      context: ./web
+      context: ./react-app
       dockerfile: ./Dockerfile
     restart: always
     ports:
