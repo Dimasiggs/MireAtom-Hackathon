@@ -5,11 +5,18 @@ from fastapi import (
 )
 
 from fuzzywuzzy import fuzz
+from pix2tex.cli import LatexOCR
 
 import app.database as database
 
 api = FastAPI()
 Formulas = database.Formulas("database.db")
+model = LatexOCR()
+
+
+def img_to_latex(img) -> str:
+    return model(img)
+
 
 # Функция для сравнения формул на схожесть
 def formulas_similarity(s1, s2, l=0) -> dict:
@@ -31,6 +38,12 @@ def formulas_similarity(s1, s2, l=0) -> dict:
                 s2 = s2.replace(substring, "\colorbox{#" + color + "}{" + substring + "}")
 
     return {"string1": s1, "string2": s2, "percent": fuzz.ratio(s1, s2)}
+
+
+
+@api.get("/formula/img_to_latex")
+async def get_latex_from_img(img) -> str:
+    return img_to_latex(img)
 
 
 # Получить схожесть введенных формул
