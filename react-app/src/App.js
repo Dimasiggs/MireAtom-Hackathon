@@ -1,10 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import FormulaView from './FormulaView.js';
 
 function App() {
     const [latex1, setLatex1] = useState('');
     const [latex2, setLatex2] = useState('');
     const [matchingLatex, setMatchingLatex] = useState('');
+
+    useEffect(() => {
+        const templateUrl = new URL('/api/v01/formula', window.location.origin);
+        templateUrl.searchParams.set('formula1', latex1);
+        templateUrl.searchParams.set('formula2', latex2);
+
+        async function fetchSimilarFormulas() {
+            const url = new URL('similar_formulas', templateUrl.href);
+            url.search = templateUrl.searchParams.toString();
+
+            const response = await fetch(url);
+            const data = await response.text();
+            setMatchingLatex(data);
+        }
+
+        fetchSimilarFormulas();
+    }, [latex1, latex2]);
 
     return (
         <>
