@@ -1,10 +1,10 @@
-import { useState } from "react"
-import FormulaView from "./FormulaView.js";
+import { useState } from 'react'
+import FormulaView from './FormulaView.js';
 
 function App() {
-    const [latex1, setLatex1] = useState("");
-    const [latex2, setLatex2] = useState("");
-    const [matchingLatex, setMatchingLatex] = useState("");
+    const [latex1, setLatex1] = useState('');
+    const [latex2, setLatex2] = useState('');
+    const [matchingLatex, setMatchingLatex] = useState('');
 
     return (
         <>
