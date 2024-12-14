@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import FormulaView from './FormulaView.js';
+import "./container.css";
 
 function App() {
     const [latex1, setLatex1] = useState('');
@@ -25,7 +26,7 @@ function App() {
 
     return (
         <>
-            <main>
+            <main class="container">
                 <h1>Редактор и анализатор формул</h1>
                 <section>
                     <h2>Формула 1</h2>
