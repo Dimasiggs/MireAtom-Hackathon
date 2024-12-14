@@ -6,6 +6,7 @@ function App() {
     const [latex1, setLatex1] = useState('');
     const [latex2, setLatex2] = useState('');
     const [matchingLatex, setMatchingLatex] = useState('');
+    const [matchingPercent, setMatchingPercent] = useState(0);
 
     useEffect(() => {
         const templateUrl = new URL('/api/v01/formula', window.location.origin);
@@ -21,6 +22,16 @@ function App() {
             setMatchingLatex(data);
         }
 
+        async function fetchFormulaSimilarity() {
+            const url = new URL('similarity', templateUrl.href);
+            url.search = templateUrl.searchParams.toString();
+
+            const response = await fetch(url);
+            const data = await response.text();
+            setMatchingPercent(+data);
+        }
+
+        fetchFormulaSimilarity();
         fetchSimilarFormulas();
     }, [latex1, latex2]);
 
@@ -39,6 +50,7 @@ function App() {
                 <section>
                     <h2>Совпадение формул</h2>
                     <FormulaView latex={matchingLatex} />
+                    {matchingPercent > 0 && <p>Формулы совпадают на {matchingPercent}%</p>}
                 </section>
             </main>
         </>
