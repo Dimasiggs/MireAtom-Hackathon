@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
+import { Tabs, TabList, Tab, TabPanel, Collection } from 'react-aria-components';
 import './aria-starter/Tabs.css';
 
 import FormulaView from './FormulaView.js';
@@ -57,8 +57,48 @@ const ComparingTwoFormulasTab = ({ ...props }) => {
 };
 
 
-function App() {
+const SearchTab = ({ ...props }) => {
+    const [latex, setLatex] = useState('');
+    const [similarFormulas, setSimilarFormulas] = useState([]);
 
+    useEffect(() => {
+        if (latex === '') return;
+
+        async function fetchFormulaSimilarity() {
+            const url = new URL('/api/v01/formula/similar_formulas', window.location.origin);
+            url.searchParams.set('formula', latex);
+
+            const response = await fetch(url);
+            const data = await response.json();
+            setSimilarFormulas(data);
+        }
+
+        fetchFormulaSimilarity();
+    }, [latex]);
+
+    return (
+        <TabPanel {...props}>
+            <section>
+                <h2>Ваша формула</h2>
+                <FormulaView latex={latex} setLatex={setLatex} />
+            </section>
+            <section>
+                <h2>Похожие формулы</h2>
+                {similarFormulas.map(({ string1, string2, percent }, i) => (
+                    <section>
+                        <h3>Формула {i}</h3>
+                        <Meter label="Совпадение формул" value={percent} />
+                        <FormulaView latex={string2} />
+                    </section>
+                ))}
+                {similarFormulas.length === 0 && <p>Похожих формул не найдено</p>}
+            </section>
+        </TabPanel>
+    );
+};
+
+
+function App() {
     return (
         <>
             <main class="container">
@@ -67,8 +107,10 @@ function App() {
                 <Tabs>
                     <TabList>
                         <Tab id="two-formulas">Сравнить 2 формулы</Tab>
+                        <Tab id="search-for-similar">Поиск похожих формул</Tab>
                     </TabList>
                     <ComparingTwoFormulasTab id="two-formulas" />
+                    <SearchTab id="search-for-similar" />
                 </Tabs>
             </main>
         </>
