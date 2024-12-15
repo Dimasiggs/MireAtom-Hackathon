@@ -11,6 +11,7 @@ function App() {
 
 
     useEffect(() => {
+        if (latex1 === '' || latex2 === '') return;
         const templateUrl = new URL('/api/v01/formula/', window.location.origin);
         templateUrl.searchParams.set('formula1', latex1);
         templateUrl.searchParams.set('formula2', latex2);
