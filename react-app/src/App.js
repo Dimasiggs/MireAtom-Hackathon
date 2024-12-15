@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Tabs, TabList, Tab, TabPanel, DropZone, Disclosure, DisclosureTitle, DisclosurePanel } from 'react-aria-components';
+import { Tabs, TabList, Tab, TabPanel, DropZone, Disclosure, Heading, Button, DisclosurePanel } from 'react-aria-components';
 import './aria-starter/Tabs.css';
+import './aria-starter/Button.css';
+import './aria-starter/Disclosure.css';
 
 import FormulaView from './FormulaView.js';
 import Meter from './Meter.js';
@@ -135,11 +137,28 @@ const ImageToLatexTab = ({ ...props }) => {
     );
 };
 
-const AboutTab = ({ ...props }) => {
-    <TabPanel {...props}>
-        <Disclosure>
-            <DisclosureTitle>Как использовать наш сайт</DisclosureTitle>
+function MyDisclosure({ title, children, ...props }) {
+    return (
+        <Disclosure {...props}>
+            <Heading>
+                <Button slot="trigger">
+                    <svg viewBox="0 0 24 24">
+                        <path d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
+                    {title}
+                </Button>
+            </Heading>
             <DisclosurePanel>
+                {children}
+            </DisclosurePanel>
+        </Disclosure>
+    )
+}
+
+const AboutTab = ({ ...props }) => {
+    return (
+        <TabPanel {...props}>
+            <MyDisclosure title="Как использовать наш сайт?">
                 <p>
                     Преобразование формул в LaTeX: Введите вашу формулу в текстовое поле, и она будет автоматически преобразована в формат LaTeX. Это позволит вам легко использовать формулы в научных документах.
                 </p>
@@ -151,17 +170,14 @@ const AboutTab = ({ ...props }) => {
                 <p>
                     Обработка изображений: Если у вас есть формула в формате PNG или JPG, загрузите изображение, и наш инструмент преобразует его в формат LaTeX.
                 </p>
-            </DisclosurePanel>
-        </Disclosure>
-        <Disclosure>
-            <DisclosureTitle>Что такое LaTeX?</DisclosureTitle>
-            <DisclosurePanel>
+            </MyDisclosure>
+            <MyDisclosure title="Что такое LaTeX?">
                 <p>
                     LaTeX - это система вёрстки, основанная на языке разметки, которая позволяет создавать документы с высоким качеством типографики. Именно она позволяет пользователям легко управлять сложными документами, обеспечивая при этом высокую степень контроля над форматированием и представлением информации. Это делает LaTeX идеальным инструментом для научных публикаций, где точность и качество имеют первостепенное значение.
                 </p>
-            </DisclosurePanel>
-        </Disclosure>
-    </TabPanel>
+            </MyDisclosure>
+        </TabPanel>
+    );
 };
 
 function App() {
@@ -175,7 +191,7 @@ function App() {
                         <Tab id="about">О сайте</Tab>
                         <Tab id="two-formulas">Сравнить 2 формулы</Tab>
                         <Tab id="search-for-similar">Поиск похожих формул</Tab>
-                        <Tab id="img-to-latex" disabled>Получить формулу из изображения</Tab>
+                        <Tab id="img-to-latex" isDisabled>Получить формулу из изображения</Tab>
                     </TabList>
                     <AboutTab id="about" />
                     <ComparingTwoFormulasTab id="two-formulas" />
