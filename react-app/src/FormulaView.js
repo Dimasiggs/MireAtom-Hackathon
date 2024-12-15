@@ -25,14 +25,17 @@ function FormulaView({ latex, setLatex }) {
 
     return (
         <>
-            <math-field
-                contenteditable='true'
-                tabIndex='0'
-                onInput={onInput}
-                style={mathFieldStyle}
-            >
-                {latex}
-            </math-field>
+            <Label>
+                Формула (редактируемая)
+                <math-field
+                    contenteditable='true'
+                    tabIndex='0'
+                    onInput={onInput}
+                    style={mathFieldStyle}
+                >
+                    {latex}
+                </math-field>
+            </Label>
 
             <TextField value={latex} onChange={setLatex} style={{
                 width: '100%',
