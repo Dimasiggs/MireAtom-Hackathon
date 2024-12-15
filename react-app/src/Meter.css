@@ -1,0 +1,13 @@
+@import "./aria-starter/Meter.css";
+
+.meter--value--high {
+    --fill-color: red;
+}
+
+.meter--value--medium {
+    --fill-color: orange;
+}
+
+.meter--value--low {
+    --fill-color: green;
+}
