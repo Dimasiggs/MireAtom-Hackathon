@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
+import { Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
+import './aria-starter/Tabs.css';
+
 import FormulaView from './FormulaView.js';
 import Meter from './Meter.js';
 import "./container.css";
 
-function App() {
+const ComparingTwoFormulasTab = ({ ...props }) => {
     const [latex1, setLatex1] = useState('');
     const [latex2, setLatex2] = useState('');
     const [matchingLatex1, setMatchingLatex1] = useState('');
@@ -32,25 +35,41 @@ function App() {
     }, [latex1, latex2]);
 
     return (
+        <TabPanel {...props}>
+            <section>
+                <h2>Формула 1</h2>
+                <FormulaView latex={latex1} setLatex={setLatex1} />
+            </section>
+            <section>
+                <h2>Формула 2</h2>
+                <FormulaView latex={latex2} setLatex={setLatex2} />
+            </section>
+            <section>
+                <h2>Совпадение формул</h2>
+                {(latex1 !== '' && latex2 !== '') && <Meter label="Совпадение формул" value={matchingPercent} />}
+                <h3>Формула 1</h3>
+                <FormulaView latex={matchingLatex1} />
+                <h3>Формула 2</h3>
+                <FormulaView latex={matchingLatex2} />
+            </section>
+        </TabPanel>
+    )
+};
+
+
+function App() {
+
+    return (
         <>
             <main class="container">
                 <h1>Редактор и анализатор формул</h1>
-                <section>
-                    <h2>Формула 1</h2>
-                    <FormulaView latex={latex1} setLatex={setLatex1} />
-                </section>
-                <section>
-                    <h2>Формула 2</h2>
-                    <FormulaView latex={latex2} setLatex={setLatex2} />
-                </section>
-                <section>
-                    <h2>Совпадение формул</h2>
-                    {(latex1 !== '' && latex2 !== '') && <Meter label="Совпадение формул" value={matchingPercent} />}
-                    <h3>Формула 1</h3>
-                    <FormulaView latex={matchingLatex1} />
-                    <h3>Формула 2</h3>
-                    <FormulaView latex={matchingLatex2} />
-                </section>
+
+                <Tabs>
+                    <TabList>
+                        <Tab id="two-formulas">Сравнить 2 формулы</Tab>
+                    </TabList>
+                    <ComparingTwoFormulasTab id="two-formulas" />
+                </Tabs>
             </main>
         </>
     );
