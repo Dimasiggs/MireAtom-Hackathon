@@ -5,34 +5,28 @@ import "./container.css";
 function App() {
     const [latex1, setLatex1] = useState('');
     const [latex2, setLatex2] = useState('');
-    const [matchingLatex, setMatchingLatex] = useState('');
+    const [matchingLatex1, setMatchingLatex1] = useState('');
+    const [matchingLatex2, setMatchingLatex2] = useState('');
     const [matchingPercent, setMatchingPercent] = useState(0);
 
+
     useEffect(() => {
-        const templateUrl = new URL('/api/v01/formula', window.location.origin);
+        const templateUrl = new URL('/api/v01/formula/', window.location.origin);
         templateUrl.searchParams.set('formula1', latex1);
         templateUrl.searchParams.set('formula2', latex2);
-
-        async function fetchSimilarFormulas() {
-            const url = new URL('similar_formulas', templateUrl.href);
-            url.search = templateUrl.searchParams.toString();
-
-            const response = await fetch(url);
-            const data = await response.text();
-            setMatchingLatex(data);
-        }
 
         async function fetchFormulaSimilarity() {
             const url = new URL('similarity', templateUrl.href);
             url.search = templateUrl.searchParams.toString();
 
             const response = await fetch(url);
-            const data = await response.text();
-            setMatchingPercent(+data);
+            const data = await response.json();
+            setMatchingPercent(+data.percent);
+            setMatchingLatex1(data.string1);
+            setMatchingLatex2(data.string2);
         }
 
         fetchFormulaSimilarity();
-        fetchSimilarFormulas();
     }, [latex1, latex2]);
 
     return (
@@ -49,8 +43,11 @@ function App() {
                 </section>
                 <section>
                     <h2>Совпадение формул</h2>
-                    <FormulaView latex={matchingLatex} />
                     {matchingPercent > 0 && <p>Формулы совпадают на {matchingPercent}%</p>}
+                    <h3>Формула 1</h3>
+                    <FormulaView latex={matchingLatex1} />
+                    <h3>Формула 2</h3>
+                    <FormulaView latex={matchingLatex2} />
                 </section>
             </main>
         </>
