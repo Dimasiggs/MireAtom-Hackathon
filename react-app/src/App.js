@@ -45,7 +45,7 @@ function App() {
                 </section>
                 <section>
                     <h2>Совпадение формул</h2>
-                    {matchingPercent > 0 && <Meter label="Совпадение формул" value={matchingPercent} />}
+                    {(latex1 !== '' && latex2 !== '') && <Meter label="Совпадение формул" value={matchingPercent} />}
                     <h3>Формула 1</h3>
                     <FormulaView latex={matchingLatex1} />
                     <h3>Формула 2</h3>
