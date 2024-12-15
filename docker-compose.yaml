@@ -22,18 +22,6 @@ services:
     volumes:
       - react_build:/app/build
 
-  db:
-    image: postgres:15
-    restart: always
-    environment:
-      - POSTGRES_PASSWORD=lol
-      - POSTGRES_USER=lol
-      - POSTGRES_DB=lol
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
 
 volumes:
-   postgres_data:
    react_build:
