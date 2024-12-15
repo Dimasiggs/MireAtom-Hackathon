@@ -5,6 +5,7 @@ import 'mathlive/fonts.css';
 function FormulaView({ latex, setLatex }) {
     const mathFieldStyle = {
         display: 'block',
+        marginBottom: '1em',
     };
 
     if (setLatex == null) return (
