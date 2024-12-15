@@ -5,6 +5,10 @@ from fastapi import (
 from fuzzywuzzy import fuzz
 #from pix2tex.cli import LatexOCR
 
+
+import sympy
+from sympy.parsing.latex import parse_latex
+
 import app.database as database
 
 api = FastAPI()
@@ -16,10 +20,6 @@ Formulas = database.Formulas("database.db")
 #    return model(img)
 
 
-# Функция для сравнения формул на схожесть
-import fuzzywuzzy.fuzz
-import sympy
-from sympy.parsing.latex import parse_latex
 
 
 def expr_to_nested_list(expr, max_depth: int, current_depth: int = 0):
