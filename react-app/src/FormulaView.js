@@ -1,6 +1,7 @@
 import { TextField, Label, TextArea } from 'react-aria-components';
 import 'mathlive';
 import 'mathlive/fonts.css';
+import './aria-starter/TextField.css';
 
 function FormulaView({ latex, setLatex }) {
     const mathFieldStyle = {
@@ -33,12 +34,12 @@ function FormulaView({ latex, setLatex }) {
                 {latex}
             </math-field>
 
-            <TextField value={latex} onChange={setLatex}>
+            <TextField value={latex} onChange={setLatex} style={{
+                width: '100%',
+            }}>
                 <Label>LaTeX</Label>
                 <TextArea style={{
                     resize: 'vertical',
-                    display: 'block',
-                    width: '100%',
                 }} />
             </TextField>
         </>
