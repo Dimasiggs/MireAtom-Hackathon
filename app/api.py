@@ -1,9 +1,11 @@
+import json
 import random
 
 from fastapi import (
     FastAPI,
 )
 
+import ast
 from fuzzywuzzy import fuzz
 #from pix2tex.cli import LatexOCR
 
@@ -19,7 +21,7 @@ Formulas = database.Formulas("database.db")
 
 
 # Функция для сравнения формул на схожесть
-def formulas_similarity(s1, s2, l=0) -> dict:
+def formulas_similarity(s1, s2, l=2) -> dict:
     q1 = s1
     q2 = s2
     if len(s1) > len(s2):
@@ -32,10 +34,9 @@ def formulas_similarity(s1, s2, l=0) -> dict:
             substring = q1[start:end]
             if substring in q2:
                 q2 = q2.replace(substring, "")
-                color = hex(random.randrange(0, 2 ** 24))[2:]
-                color = "88E788"
-                s1 = s1.replace(substring, "\colorbox{#" + color + "}{" + substring + "}")
-                s2 = s2.replace(substring, "\colorbox{#" + color + "}{" + substring + "}")
+
+                s1 = s1.replace(substring, r"\colorbox{#88E788}{$" + substring + "}$")
+                s2 = s2.replace(substring, r"\colorbox{#88E788}{$" + substring + "}$")
 
     return {"string1": s1, "string2": s2, "percent": fuzz.ratio(s1, s2)}
 
