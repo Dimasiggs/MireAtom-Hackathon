@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Tabs, TabList, Tab, TabPanel, Collection } from 'react-aria-components';
+import { Tabs, TabList, Tab, TabPanel, DropZone, Disclosure, DisclosureTitle, DisclosurePanel } from 'react-aria-components';
 import './aria-starter/Tabs.css';
 
 import FormulaView from './FormulaView.js';
@@ -97,6 +97,72 @@ const SearchTab = ({ ...props }) => {
     );
 };
 
+const ImageToLatexTab = ({ ...props }) => {
+    const [image, setImage] = useState(null);
+    const [latex, setLatex] = useState('');
+
+    useEffect(() => {
+        if (latex === '') return;
+
+        async function fetchLatexFromImage() {
+            const url = new URL('/api/v01/formula/img_to_latex', window.location.origin);
+            const response = await fetch(url, {
+                method: "post",
+                body: image,
+            })
+
+            const data = await response.text();
+            setLatex(data);
+        }
+
+        fetchLatexFromImage();
+    }, [latex]);
+
+    return (
+        <TabPanel {...props}>
+            <section>
+                <h2>Ваше изображение</h2>
+                <DropZone onDrop={console.log} />
+            </section>
+            <section>
+                <h2>Формула</h2>
+                {image === null
+                    ? <p>Загрузите ваше изображение, чтобы получить из него формулу</p>
+                    : <FormulaView latex={latex} setLatex={setLatex} />
+                }
+            </section>
+        </TabPanel>
+    );
+};
+
+const AboutTab = ({ ...props }) => {
+    <TabPanel {...props}>
+        <Disclosure>
+            <DisclosureTitle>Как использовать наш сайт</DisclosureTitle>
+            <DisclosurePanel>
+                <p>
+                    Преобразование формул в LaTeX: Введите вашу формулу в текстовое поле, и она будет автоматически преобразована в формат LaTeX. Это позволит вам легко использовать формулы в научных документах.
+                </p>
+
+                <p>
+                    Сравнение формул: Вы можете сравнить введенную формулу с другими формулами в базе данных, чтобы проверить на совпадения и избежать плагиата.
+                </p>
+
+                <p>
+                    Обработка изображений: Если у вас есть формула в формате PNG или JPG, загрузите изображение, и наш инструмент преобразует его в формат LaTeX.
+                </p>
+            </DisclosurePanel>
+        </Disclosure>
+        <Disclosure>
+            <DisclosureTitle>Что такое LaTeX?</DisclosureTitle>
+            <DisclosurePanel>
+                <p>
+                    LaTeX - это система вёрстки, основанная на языке разметки, которая позволяет создавать документы с высоким качеством типографики. Именно она позволяет пользователям легко управлять сложными документами, обеспечивая при этом высокую степень контроля над форматированием и представлением информации. Это делает LaTeX идеальным инструментом для научных публикаций, где точность и качество имеют первостепенное значение.
+                </p>
+            </DisclosurePanel>
+        </Disclosure>
+    </TabPanel>
+};
 
 function App() {
     return (
@@ -106,11 +172,15 @@ function App() {
 
                 <Tabs>
                     <TabList>
+                        <Tab id="about">О сайте</Tab>
                         <Tab id="two-formulas">Сравнить 2 формулы</Tab>
                         <Tab id="search-for-similar">Поиск похожих формул</Tab>
+                        <Tab id="img-to-latex" disabled>Получить формулу из изображения</Tab>
                     </TabList>
+                    <AboutTab id="about" />
                     <ComparingTwoFormulasTab id="two-formulas" />
                     <SearchTab id="search-for-similar" />
+                    <ImageToLatexTab id="img-to-latex" />
                 </Tabs>
             </main>
         </>
