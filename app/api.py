@@ -35,8 +35,8 @@ def formulas_similarity(s1, s2, l=2) -> dict:
             if substring in q2:
                 q2 = q2.replace(substring, "")
 
-                s1 = s1.replace(substring, r"\colorbox{#88E788}{$" + substring + "}$")
-                s2 = s2.replace(substring, r"\colorbox{#88E788}{$" + substring + "}$")
+                s1 = s1.replace(substring, r"\colorbox{#88E788}{$" + substring + "$}")
+                s2 = s2.replace(substring, r"\colorbox{#88E788}{$" + substring + "$}")
 
     return {"string1": s1, "string2": s2, "percent": fuzz.ratio(s1, s2)}
 
