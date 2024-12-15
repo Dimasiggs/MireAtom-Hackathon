@@ -3,7 +3,7 @@
 
 Как запустить данный репозиторий?
 
-1)Для начало необходимо установиться docker.desktop(https://www.docker.com/products/docker-desktop/)
+1)Для начало необходимо установиться [docker.desktop](https://www.docker.com/products/docker-desktop/)
 
 2)Активировать stertDocker.bat и у вас автоматически появится проект в desktop
 
