@@ -23,3 +23,5 @@
 Frontend: React, React-aria-component, MathLive
 
 Backend: Fastapi, Starlette, Fuzzywuzzy, Sympy, Pix2tex
+
+![Снимок экрана 2024-12-16 015414](https://github.com/user-attachments/assets/8f24cfcc-3ec1-428d-8b4d-f1131a9f9503)
